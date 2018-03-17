@@ -1,6 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>To-do List</title>
     <link type="text/css" rel="stylesheet"
@@ -10,17 +9,17 @@
 <body>
 <div class="ui container">
     <div class="ui inverted menu">
-        <a class="item" href="<c:url value="/todos"/>">To-dos</a>
+        <a class="item" th:href="@{/todos}">To-dos</a>
         <div class="right menu">
             <div class="item">
-                <form action="<c:url value="/logout"/>" method="post">
+                <form th:action="@{/logout}" method="POST">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <button class="ui small red basic compact button">Logout</button>
                 </form>
             </div>
         </div>
     </div>
-    <h4>To-dos for ${principal.name}</h4>
+    <h4>To-dos for</h4>
     <table class="ui celled table">
         <thead>
         <tr>
@@ -31,33 +30,29 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${todos}" var="todo">
-            <tr>
-                <td>${todo.owner}</td>
-                <td>${todo.description}</td>
-                <td>${todo.completed}</td>
+            <tr th:each="todo : ${todos}">
+                <td><div th:text="${todo.owner}"></div></td>
+                <td><div th:text="${todo.description}"></div></td>
+                <td><div th:text="${todo.completed}"></div></td>
                 <td>
-                    <c:if test="${!todo.completed}">
-                        <c:url value="/todos/${todo.id}/completed" var="completedUrl"/>
-                        <form action="${completedUrl}" method="post" style="float: left;">
+                    <div th:if="${!todo.completed}">
+                        <form th:action="@{/todos/} + ${todo.id} + '/completed'" method="POST" style="float: left;">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <input type="hidden" name="_method" value="PUT"/>
                             <button class="ui mini green icon button"><i class="check circle icon"></i></button>
                         </form>
-                    </c:if>
-                    <c:url value="/todos/${todo.id}" var="deleteUrl"/>
-                    <form action="${deleteUrl}" method="post" style="float: left;">
+                    </div>
+                    <form th:action="@{/todos/{path}(path=${todo.id})}" method="POST" style="float: left;">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button class="ui mini red icon button"><i class="remove circle icon"></i></button>
                     </form>
                 </td>
             </tr>
-        </c:forEach>
         <tr>
             <td colspan="3">
-                <a class="ui mini icon button" href="<c:url value="/todos/new"/>">New To-do <i
-                        class="add circle icon"></i></a>
+                <a class="ui mini icon button" th:href="@{/todos/new}">New To-do 
+                <i class="add circle icon"></i></a>
             </td>
         </tr>
         </tbody>

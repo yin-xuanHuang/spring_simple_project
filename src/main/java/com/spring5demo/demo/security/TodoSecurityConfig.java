@@ -49,12 +49,13 @@ public class TodoSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .httpBasic().disable()
                 .formLogin()
-                    .loginPage("/login.jsp")
+                    .loginPage("/login")
                     .loginProcessingUrl("/login")
-                    .failureUrl("/login.jsp?error=true")
+//                    .failureUrl("/login?error=true")
                     .permitAll()
             .and()
-                .logout().logoutSuccessUrl("/logout-success.jsp");
+                .logout()
+                .logoutSuccessUrl("/logout-success");
     }
 
 
