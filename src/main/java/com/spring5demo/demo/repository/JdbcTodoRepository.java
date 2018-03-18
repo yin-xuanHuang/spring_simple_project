@@ -3,22 +3,28 @@ package com.spring5demo.demo.repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.spring5demo.demo.datasource.DevEmbeddedDatasourceConfig;
+import com.spring5demo.demo.datasource.DevMysqlDatasourceConfig;
+import com.spring5demo.demo.datasource.ProductionDatasourceConfig;
 import com.spring5demo.demo.domain.Todo;
 
 @Repository
+@Import({ProductionDatasourceConfig.class, DevEmbeddedDatasourceConfig.class, DevMysqlDatasourceConfig.class})
 class JdbcTodoRepository implements TodoRepository {
 
-    private final JdbcTemplate jdbc;
+//    private final JdbcTemplate jdbc;
+	private JdbcOperations jdbc;
 
-    JdbcTodoRepository(DataSource dataSource) {
-        this.jdbc=new JdbcTemplate(dataSource);
+	@Autowired
+    JdbcTodoRepository(JdbcOperations jdbcOperations) {
+        this.jdbc=jdbcOperations;
     }
     
     @Override
@@ -38,7 +44,6 @@ class JdbcTodoRepository implements TodoRepository {
 
     @Override
     public Todo save(Todo todo) {
-
         if (todo.getId() == null) {
             final String sql = "insert into todo (owner, description, completed) values (?,?,?)";
             final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -63,4 +68,15 @@ class JdbcTodoRepository implements TodoRepository {
     public void remove(long id) {
         this.jdbc.update("delete from todo where id=?", id);
     }
+    
+    // BeanPropertyRowMapper 做的事情(TodoRowMapper)
+//    private static final class TodoRowMapper implements RowMapper<Todo> {
+//    	public Todo mapRow(ResultSet rs, int rowNum) throws SQLException{
+//    		return new Todo(
+//    				rs.getLong("id"),
+//    				rs.getString("owner"),
+//    				rs.getString("description"),
+//    				rs.getBoolean("completed"));
+//    	}
+//    }
 }
