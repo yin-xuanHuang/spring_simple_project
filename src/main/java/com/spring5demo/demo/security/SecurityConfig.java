@@ -13,13 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.spring5demo.demo.datasource.DevInDatasourceConfig;
+import com.spring5demo.demo.datasource.DevEmbeddedDatasourceConfig;
 import com.spring5demo.demo.datasource.DevMysqlDatasourceConfig;
 import com.spring5demo.demo.datasource.ProductionDatasourceConfig;
 
 @Configuration
 @EnableWebSecurity
-@Import({ ProductionDatasourceConfig.class, DevInDatasourceConfig.class, DevMysqlDatasourceConfig.class})
+@Import({ProductionDatasourceConfig.class, DevEmbeddedDatasourceConfig.class, DevMysqlDatasourceConfig.class})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired

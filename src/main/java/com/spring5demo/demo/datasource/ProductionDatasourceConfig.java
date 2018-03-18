@@ -2,14 +2,11 @@ package com.spring5demo.demo.datasource;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,23 +29,13 @@ public class ProductionDatasourceConfig implements DatasourceConfig {
 	@Override
 	@Bean
 	public DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(driverName);
 		dataSource.setUrl(dbUrl);
 		dataSource.setUsername(userName);
 		dataSource.setPassword(password);
+		dataSource.setInitialSize(5);
+		dataSource.setMaxActive(10);
 		return dataSource;
 	}
-
-	@Bean
-	public DataSourceInitializer dataSourceInitializer() {
-		ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
-		resourceDatabasePopulator.addScripts(new ClassPathResource("/schema-mysql.sql"), new ClassPathResource("/data-mysql.sql"));
-
-		DataSourceInitializer dataSourceInitialize = new DataSourceInitializer();
-		dataSourceInitialize.setDataSource(dataSource());
-		dataSourceInitialize.setDatabasePopulator(resourceDatabasePopulator);
-		return dataSourceInitialize;
-	}
-
 }

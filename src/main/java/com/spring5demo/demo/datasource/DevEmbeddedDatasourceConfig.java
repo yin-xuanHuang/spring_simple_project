@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile("devH2")
-public class DevInDatasourceConfig implements DatasourceConfig {
+public class DevEmbeddedDatasourceConfig implements DatasourceConfig {
 
 	@Override
 	@Bean
