@@ -1,9 +1,12 @@
-package com.spring5demo.demo;
+package com.spring5demo.demo.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.spring5demo.demo.domain.Todo;
+import com.spring5demo.demo.repository.TodoRepository;
 
 @Service
 @Transactional

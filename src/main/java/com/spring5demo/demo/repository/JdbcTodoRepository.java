@@ -1,4 +1,4 @@
-package com.spring5demo.demo;
+package com.spring5demo.demo.repository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+
+import com.spring5demo.demo.domain.Todo;
 
 @Repository
 class JdbcTodoRepository implements TodoRepository {

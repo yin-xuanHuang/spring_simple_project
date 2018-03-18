@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
 @ComponentScan("com.spring5demo.demo")
-public class TodoWebConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {

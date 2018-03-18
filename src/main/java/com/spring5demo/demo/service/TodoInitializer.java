@@ -1,8 +1,10 @@
-package com.spring5demo.demo;
+package com.spring5demo.demo.service;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
+
+import com.spring5demo.demo.domain.Todo;
 
 @Component
 class TodoInitializer {

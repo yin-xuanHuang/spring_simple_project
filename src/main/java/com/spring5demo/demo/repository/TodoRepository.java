@@ -1,6 +1,8 @@
-package com.spring5demo.demo;
+package com.spring5demo.demo.repository;
 
 import java.util.List;
+
+import com.spring5demo.demo.domain.Todo;
 
 public interface TodoRepository {
 

@@ -1,11 +1,13 @@
-package com.spring5demo.demo.web;
+package com.spring5demo.demo;
 
 import javax.servlet.Filter;
 
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class TodoWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+import com.spring5demo.demo.web.WebConfig;
+
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -14,7 +16,7 @@ public class TodoWebInitializer extends AbstractAnnotationConfigDispatcherServle
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] {TodoWebConfig.class};
+		return new Class<?>[] {WebConfig.class};
 	}
 
 	@Override

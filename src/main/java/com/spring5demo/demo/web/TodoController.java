@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring5demo.demo.Todo;
-import com.spring5demo.demo.TodoService;
+import com.spring5demo.demo.domain.Todo;
+import com.spring5demo.demo.service.TodoService;
 
 @Controller
 @RequestMapping("/todos")

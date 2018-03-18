@@ -1,4 +1,4 @@
-package com.spring5demo.demo;
+package com.spring5demo.demo.domain;
 
 import javax.validation.constraints.NotEmpty;
 
