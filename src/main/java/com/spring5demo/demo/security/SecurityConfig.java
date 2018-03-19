@@ -35,15 +35,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().passwordEncoder(passwordEncoder()).dataSource(dataSource);
+		auth.jdbcAuthentication()
+			.passwordEncoder(passwordEncoder())
+			.dataSource(dataSource)
+			.usersByUsernameQuery(
+					"SELECT username, password, enabled FROM users WHERE username =?")
+			.authoritiesByUsernameQuery(
+					"SELECT username, authority_name FROM user_authority WHERE username = ?");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/todos*").hasAuthority("USER").antMatchers(HttpMethod.DELETE, "/todos*")
-				.hasAuthority("ADMIN").and().httpBasic().disable().formLogin().loginPage("/login")
-				.loginProcessingUrl("/login").failureUrl("/login?error=true").permitAll().and().logout()
+		http.authorizeRequests()
+			.antMatchers("/todos*").hasAuthority("ROLE_USER")
+			.antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ROLE_ADMIN")
+		.and()
+			.httpBasic().disable()
+			.formLogin().loginPage("/login")
+				.loginProcessingUrl("/login")
+				.failureUrl("/login?error=true")
+				.permitAll()
+		.and()
+			.logout()
 				.logoutSuccessUrl("/logout-success");
 	}
 

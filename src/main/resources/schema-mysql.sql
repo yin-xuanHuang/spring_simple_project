@@ -1,19 +1,27 @@
 CREATE TABLE IF NOT EXISTS todo (
-  id bigint AUTO_INCREMENT PRIMARY KEY ,
-  owner VARCHAR(255) NOT NULL,
+  id          BIGINT       AUTO_INCREMENT PRIMARY KEY ,
+  owner       VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
-  completed BOOLEAN NOT NULL DEFAULT false
+  completed   BOOLEAN      NOT NULL DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS users (
-    username    VARCHAR(50)    NOT NULL,
+    id          BIGINT         AUTO_INCREMENT,
+    username    VARCHAR(50)    NOT NULL UNIQUE,
     password    VARCHAR(60)    NOT NULL,
-    enabled     SMALLINT,
-    PRIMARY KEY (username)
+    email       VARCHAR(100)   NOT NULL,
+    enabled     BOOLEAN NOT NULL  DEFAULT false,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS authorities (
-    username    VARCHAR(50)    NOT NULL,
-    authority   VARCHAR(50)    NOT NULL,
-    FOREIGN KEY (username) REFERENCES users(username)
+CREATE TABLE IF NOT EXISTS authority (
+    name    VARCHAR(50)  NOT NULL UNIQUE,
+    PRIMARY KEY (name)
+);
+
+CREATE TABLE IF NOT EXISTS user_authority (
+    username         VARCHAR(50)    NOT NULL,
+    authority_name   VARCHAR(50)    NOT NULL,
+    FOREIGN KEY (username)        REFERENCES users     (username),
+    FOREIGN KEY (authority_name) REFERENCES authority (name)
 );
