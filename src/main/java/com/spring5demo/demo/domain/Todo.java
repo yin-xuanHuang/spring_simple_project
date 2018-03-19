@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table
+@Table(name="todo")
 public class Todo {
 
 	@Id

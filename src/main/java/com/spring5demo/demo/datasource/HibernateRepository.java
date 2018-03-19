@@ -1,17 +1,17 @@
 package com.spring5demo.demo.datasource;
 
-import java.util.Arrays;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -22,28 +22,20 @@ import com.spring5demo.demo.repository.HibernateTodoRepository;
 import com.spring5demo.demo.repository.TodoRepository;
 
 @Profile("orm")
+@PropertySource("classpath:/application.properties")
 @Configuration
 @EnableTransactionManagement
 public class HibernateRepository implements RepositoryConfig {
 
-	@Autowired
-	private Environment env;
+	@Value("${hibernate.hbm2ddl.auto:}")
+	private String auto;
 
-	private String dbName = "H2Dialect";
+	@Value("${hibernate.dialect:}")
+	private String dialect;
 
-	public HibernateRepository() {
-		try {
-			String[] activeProfiles = env.getDefaultProfiles();
-			if (activeProfiles != null) {
-				if (!Arrays.asList(activeProfiles).contains("devH2")) {
-					dbName = "MySQLDialect";
-				}
-			}
-		} catch (java.lang.NullPointerException e) {
-			e.printStackTrace();
-		}
-	}
-
+	@Value("${hibernate.globally_quoted_identifiers:}")
+	private String globally_quoted_identifiers;
+	
 	@Bean
 	public TodoRepository todoRepository(SessionFactory sessionFactory) {
 		return new HibernateTodoRepository(sessionFactory);
@@ -54,7 +46,11 @@ public class HibernateRepository implements RepositoryConfig {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setAnnotatedClasses(Todo.class);
-		sessionFactory.setHibernateProperties(hibernateProperties());
+		Properties properties = new Properties();
+		properties.setProperty("hibernate.hbm2ddl.auto", this.auto);
+		properties.setProperty("hibernate.dialect", this.dialect);
+		properties.setProperty("hibernate.globally_quoted_identifiers", this.globally_quoted_identifiers);
+		sessionFactory.setHibernateProperties(properties);
 
 		return sessionFactory;
 	}
@@ -73,15 +69,4 @@ public class HibernateRepository implements RepositoryConfig {
 
 		return txManager;
 	}
-
-	Properties hibernateProperties() {//
-		return new Properties() {
-			{
-				setProperty("hibernate.hbm2ddl.auto", "update");
-				setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-				setProperty("hibernate.globally_quoted_identifiers", "true");
-			}
-		};
-	}
-
 }
