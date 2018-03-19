@@ -3,27 +3,17 @@ package com.spring5demo.demo.repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.stereotype.Repository;
 
-import com.spring5demo.demo.datasource.DevEmbeddedDatasourceConfig;
-import com.spring5demo.demo.datasource.DevMysqlDatasourceConfig;
-import com.spring5demo.demo.datasource.ProductionDatasourceConfig;
 import com.spring5demo.demo.domain.Todo;
 
-@Repository
-@Import({ProductionDatasourceConfig.class, DevEmbeddedDatasourceConfig.class, DevMysqlDatasourceConfig.class})
-class JdbcTodoRepository implements TodoRepository {
+public class JdbcTodoRepository implements TodoRepository {
 
-//    private final JdbcTemplate jdbc;
 	private JdbcOperations jdbc;
-
-	@Autowired
-    JdbcTodoRepository(JdbcOperations jdbcOperations) {
+	
+    public JdbcTodoRepository(JdbcOperations jdbcOperations) {
         this.jdbc=jdbcOperations;
     }
     

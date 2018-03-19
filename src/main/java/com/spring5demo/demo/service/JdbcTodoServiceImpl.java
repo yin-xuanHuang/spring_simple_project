@@ -2,19 +2,23 @@ package com.spring5demo.demo.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.repository.TodoRepository;
 
+@Profile("jdbc")
 @Service
 @Transactional
-class TodoServiceImpl implements TodoService {
+public class JdbcTodoServiceImpl implements TodoService {
 
-    private final TodoRepository todoRepository;
+    private TodoRepository todoRepository;
 
-    TodoServiceImpl(TodoRepository todoRepository) {
+    @Autowired
+    public JdbcTodoServiceImpl(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
 

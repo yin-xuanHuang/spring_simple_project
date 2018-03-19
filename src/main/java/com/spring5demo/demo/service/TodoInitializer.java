@@ -2,16 +2,18 @@ package com.spring5demo.demo.service;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.spring5demo.demo.domain.Todo;
 
 @Component
-class TodoInitializer {
+public class TodoInitializer {
 
-    private final TodoService messageBoardService;
+    private TodoService messageBoardService;
 
-    TodoInitializer(TodoService messageBoardService) {
+    @Autowired
+    public TodoInitializer(TodoService messageBoardService) {
         this.messageBoardService = messageBoardService;
     }
 

@@ -1,9 +1,10 @@
-package com.spring5demo.demo.web;
+package com.spring5demo.demo.controller;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,8 +25,9 @@ import com.spring5demo.demo.service.TodoService;
 @RequestMapping("/todos")
 public class TodoController {
 
-    private final TodoService todoService;
+    private TodoService todoService;
 
+    @Autowired
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
