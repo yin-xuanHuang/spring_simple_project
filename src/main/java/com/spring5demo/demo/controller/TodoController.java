@@ -1,5 +1,6 @@
 package com.spring5demo.demo.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -46,13 +47,12 @@ public class TodoController {
     }
 
     @PostMapping
-    public String newMessage(@ModelAttribute @Valid Todo todo, BindingResult errors) {
+    public String newMessage(@ModelAttribute @Valid Todo todo, BindingResult errors, Principal principal) {
 
         if (errors.hasErrors()) {
             return "todo-create";
         }
-        String owner = "marten@apressmedia.net";
-        todo.setOwner(owner);
+        todo.setOwner(principal.getName());
         todoService.save(todo);
         return "redirect:/todos";
     }

@@ -16,13 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.spring5demo.demo.datasource.DevEmbeddedDatasourceConfig;
 import com.spring5demo.demo.datasource.DevMysqlDatasourceConfig;
 import com.spring5demo.demo.datasource.HibernateRepository;
-import com.spring5demo.demo.datasource.JdbcTemplateRepositoryConfig;
 import com.spring5demo.demo.datasource.ProductionDatasourceConfig;
 
 @Configuration
 @EnableWebSecurity
 @Import({ ProductionDatasourceConfig.class, DevEmbeddedDatasourceConfig.class, DevMysqlDatasourceConfig.class,
-		JdbcTemplateRepositoryConfig.class, HibernateRepository.class })
+		 HibernateRepository.class })
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -50,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/todos*").hasAuthority("ROLE_USER")
 			.antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ROLE_ADMIN")
+			.anyRequest().permitAll()
 		.and()
 			.httpBasic().disable()
 			.formLogin().loginPage("/login")

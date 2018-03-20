@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Login</title>
+<title>Registration</title>
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 <style type="text/css">
@@ -20,34 +20,32 @@ body>.grid {
 </head>
 
 <body>
-<a th:href=@{/registration}>register</a>
-
 	<div class="ui middle aligned center aligned grid">
 		<div class="column">
-			<h2 class="ui header">Log-in to your account</h2>
-			<form method="POST" th:action="@{/login}" class="ui large form">
+			<h2 class="ui header">Register a new account</h2>
+			<form method="POST" th:object="${user}" th:action="@{/registration}" class="ui large form">
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
 				<div class="ui stacked segment">
 					<div class="field">
 						<div class="ui left icon input">
-							<i class="user icon"></i> <input type="text" name="username"
+							<i class="user icon"></i> <input type="text" th:field="*{username}" 
 								placeholder="Username">
 						</div>
 					</div>
 					<div class="field">
 						<div class="ui left icon input">
-							<i class="lock icon"></i> <input type="password" name="password"
+							<i class="lock icon"></i> <input type="password" th:field="*{password}" 
 								placeholder="Password">
 						</div>
 					</div>
 					<div class="field">
-						<div class="ui toggle checkbox">
-							<input type="checkbox" name="remember-me"> <label>Remember
-								Me</label>
+						<div class="ui left icon input">
+							<i class="email icon"></i> <input type="text" th:field="*{email}"
+								placeholder="Email">
 						</div>
 					</div>
-					<button class="ui fluid large submit green button">Login</button>
+					<button class="ui fluid large submit green button">Register</button>
 				</div>
 
                 <div th:if=${param.error} th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" 

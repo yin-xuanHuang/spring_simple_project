@@ -5,7 +5,7 @@ INSERT IGNORE INTO users (username, password, enabled, email) VALUES ('adminx', 
 INSERT IGNORE INTO users (username, password, enabled, email) VALUES ('marten', '$2a$10$5VWqjwoMYnFRTTmbWCRZT.iY3WW8ny27kQuUL9yPK1/WJcPcBLFWO',True, 'marten@ya4do.io');
 INSERT IGNORE INTO users (username, password, enabled, email) VALUES ('jdoe', '$2a$10$cFKh0.XCUOA9L.in5smIiO2QIOT8.6ufQSwIIC.AVz26WctxhSWC6', false, 'jdoe@ya4do.net');
 
-INSERT INTO user_authority (username,authority_name) VALUES('adminx', 'ROLE_USER');
-INSERT INTO user_authority (username,authority_name) VALUES('adminx', 'ROLE_ADMIN');
-INSERT INTO user_authority (username,authority_name) VALUES('marten', 'ROLE_USER');
-INSERT INTO user_authority (username,authority_name) VALUES('jdoe', 'ROLE_USER');
+INSERT IGNORE INTO user_authority (username,authority_name) VALUES('adminx', 'ROLE_USER');
+INSERT IGNORE INTO user_authority (username,authority_name) VALUES('adminx', 'ROLE_ADMIN');
+INSERT IGNORE INTO user_authority (username,authority_name) VALUES('marten', 'ROLE_USER');
+INSERT IGNORE INTO user_authority (username,authority_name) VALUES('jdoe', 'ROLE_USER');

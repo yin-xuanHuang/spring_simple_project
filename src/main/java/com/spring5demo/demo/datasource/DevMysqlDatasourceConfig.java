@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -38,17 +35,6 @@ public class DevMysqlDatasourceConfig implements DatasourceConfig {
 		dataSource.setUsername(userName);
 		dataSource.setPassword(password);
 		return dataSource;
-	}
-
-	@Bean
-	public DataSourceInitializer dataSourceInitializer() {
-		ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
-		resourceDatabasePopulator.addScripts(new ClassPathResource("/schema-mysql.sql"), new ClassPathResource("/data-mysql.sql"));
-
-		DataSourceInitializer dataSourceInitialize = new DataSourceInitializer();
-		dataSourceInitialize.setDataSource(dataSource());
-		dataSourceInitialize.setDatabasePopulator(resourceDatabasePopulator);
-		return dataSourceInitialize;
 	}
 
 }
