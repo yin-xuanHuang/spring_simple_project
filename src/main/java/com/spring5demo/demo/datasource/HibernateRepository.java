@@ -17,9 +17,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.spring5demo.demo.domain.Authority;
-import com.spring5demo.demo.domain.Todo;
-import com.spring5demo.demo.domain.User;
 import com.spring5demo.demo.repository.AuthorityRepository;
 import com.spring5demo.demo.repository.HibernateAuthorityRepository;
 import com.spring5demo.demo.repository.HibernateTodoRepository;
@@ -61,7 +58,7 @@ public class HibernateRepository implements RepositoryConfig {
 	public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
-		sessionFactory.setAnnotatedClasses(Todo.class, User.class, Authority.class);
+		sessionFactory.setPackagesToScan("com.spring5demo.demo.domain");
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.hbm2ddl.auto", this.auto);
 		properties.setProperty("hibernate.dialect", this.dialect);

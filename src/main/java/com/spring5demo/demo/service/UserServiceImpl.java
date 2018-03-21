@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void save(User user) {
-		Authority authority = this.authorityRepository.findOne(AuthoritiesConstants.USER);
+		Authority authority = this.authorityRepository.findOneByName(AuthoritiesConstants.USER);
         user.addAuthority(authority);
 
 		this.userRepository.save(user);
@@ -36,21 +36,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void enabled(String username) {
-		User user = findByUsername(username);
+		User user = findOneByUsername(username);
 		user.setEnabled(true);
 		this.userRepository.save(user);
 
 	}
 
 	@Override
-	public User findByUsername(String username) {
-		return this.userRepository.findByUsersname(username);
+	public User findOneByUsername(String username) {
+		return this.userRepository.findOneByUsername(username);
 	}
 	
 	@Override
 	public void saveAuthority(String roleName) {
-
 		this.authorityRepository.save(roleName);
 	}
+
+	@Override
+	public Authority findOneByName(String roleName) {
+		return this.authorityRepository.findOneByName(roleName);
+	}
+	
+	
 
 }

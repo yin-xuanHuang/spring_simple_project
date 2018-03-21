@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `todo` (
-  `id`          BIGINT       AUTO_INCREMENT PRIMARY KEY ,
+  `id`          BIGINT       AUTO_INCREMENT PRIMARY KEY,
   `owner`       VARCHAR(255) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
   `completed`   BOOLEAN      NOT NULL DEFAULT false
@@ -15,8 +15,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 );
 
 CREATE TABLE IF NOT EXISTS `authority` (
-    `name`    VARCHAR(50)  NOT NULL UNIQUE,
-    PRIMARY KEY (`name`)
+    `name`    VARCHAR(50)  NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS `user_authority` (

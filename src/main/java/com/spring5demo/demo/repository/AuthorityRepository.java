@@ -4,7 +4,7 @@ import com.spring5demo.demo.domain.Authority;
 
 public interface AuthorityRepository {
 
-	Authority findOne(String roleName);
+	Authority findOneByName(String roleName);
 	void save(String roleName);
 
 }

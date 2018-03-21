@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 public class Authority implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
 
     @NotNull
     @Size(min = 0, max = 50)
@@ -29,7 +30,7 @@ public class Authority implements Serializable {
         this.name = name;
     }
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

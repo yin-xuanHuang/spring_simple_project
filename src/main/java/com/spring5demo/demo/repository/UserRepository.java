@@ -4,6 +4,7 @@ import com.spring5demo.demo.domain.User;
 
 public interface UserRepository {
 
-	User findByUsersname(String username);
+	User findOneById(Long id);
+	User findOneByUsername(String username);
 	User save(User user);
 }

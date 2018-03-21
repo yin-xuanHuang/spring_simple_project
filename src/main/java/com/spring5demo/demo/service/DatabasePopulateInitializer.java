@@ -2,6 +2,8 @@ package com.spring5demo.demo.service;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +13,16 @@ import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.domain.User;
 
 @Component
-public class TodoInitializer {
+public class DatabasePopulateInitializer {
 
     private TodoService messageBoardService;
     
     private UserService autoRegisterService;
+    
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public TodoInitializer(TodoService messageBoardService, UserService autoRegisterService) {
+    public DatabasePopulateInitializer(TodoService messageBoardService, UserService autoRegisterService) {
         this.messageBoardService = messageBoardService;
         this.autoRegisterService = autoRegisterService;
     }
@@ -70,8 +74,10 @@ public class TodoInitializer {
     	user.setPassword("secret");
     	user.setEmail("adminx@ya2do.io");
     	user.setEnabled(true);
-    	Authority authority = new Authority();
-    	authority.setName(AuthoritiesConstants.ADMIN);
+    	Authority authority = this.autoRegisterService.findOneByName(AuthoritiesConstants.ADMIN);
+    	
+    	log.info("getting authority = " + authority.toString());
+    	
         user.addAuthority(authority);
         
         this.autoRegisterService.save(user);
