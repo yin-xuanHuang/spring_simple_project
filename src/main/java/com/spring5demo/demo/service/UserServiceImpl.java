@@ -19,17 +19,20 @@ public class UserServiceImpl implements UserService {
 	
 	private AuthorityRepository authorityRepository;
 	
+    private MailService mailService;
+	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository){
+	public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, MailService mailService){
 		this.userRepository = userRepository;
 		this.authorityRepository = authorityRepository;
+		this.mailService = mailService;
 	}
 	
 	@Override
 	public void save(User user) {
 		Authority authority = this.authorityRepository.findOneByName(AuthoritiesConstants.USER);
         user.addAuthority(authority);
-
+        
 		this.userRepository.save(user);
 
 	}
@@ -56,7 +59,14 @@ public class UserServiceImpl implements UserService {
 	public Authority findOneByName(String roleName) {
 		return this.authorityRepository.findOneByName(roleName);
 	}
-	
-	
 
+	@Override
+	public User activateRegistration(String key) {
+		return this.userRepository.activateRegistration(key);
+	}
+	
+	@Override
+    public void sendOrderConfirmation(User user) {
+        mailService.sendEmail(user);
+    }
 }

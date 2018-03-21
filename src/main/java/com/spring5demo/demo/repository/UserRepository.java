@@ -7,4 +7,6 @@ public interface UserRepository {
 	User findOneById(Long id);
 	User findOneByUsername(String username);
 	User save(User user);
+	User activateRegistration(String key);
+	
 }

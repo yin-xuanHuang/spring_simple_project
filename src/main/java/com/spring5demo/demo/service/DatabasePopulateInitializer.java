@@ -76,8 +76,6 @@ public class DatabasePopulateInitializer {
     	user.setEnabled(true);
     	Authority authority = this.autoRegisterService.findOneByName(AuthoritiesConstants.ADMIN);
     	
-    	log.info("getting authority = " + authority.toString());
-    	
         user.addAuthority(authority);
         
         this.autoRegisterService.save(user);

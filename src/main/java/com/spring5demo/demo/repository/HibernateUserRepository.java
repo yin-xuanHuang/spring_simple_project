@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.spring5demo.demo.domain.User;
+import com.spring5demo.demo.util.RandomUtil;
 
 public class HibernateUserRepository implements UserRepository {
 	
@@ -52,11 +53,46 @@ public class HibernateUserRepository implements UserRepository {
 		String password = user.getPassword();
 		user.setPassword(passwordEncoder.encode(password));
 		
+		if(user.isEnabled())
+		{
+			user.setActivationKey(null);
+		}else {
+			user.setActivationKey(RandomUtil.generateActivationKey());
+		}
+		
 		Serializable id = currentSession().save(user);
-		return new User((Long) id,
-				user.getUsername(),
-				user.getEmail(),
-				user.isEnabled());
+		
+		User newUser =  new User((Long) id,
+								user.getUsername(),
+								user.getEmail(),
+								user.isEnabled(),
+								user.getActivationKey());
+		
+		log.debug("Create User: {}", newUser);
+		
+		return newUser;
 		
 	}
+
+	@Override
+	public User activateRegistration(String key) {
+		User user = (User)currentSession()
+							.createQuery("from User where activation_key=?")
+							.setParameter(0, key)
+							.uniqueResult();
+		
+		if(user == null) {
+			return null;
+		} else {
+			user.setActivationKey(null);
+			user.setEnabled(true);
+			currentSession().update(user);
+			
+			log.debug("Enabled for User: {}", user);
+			
+			return user;
+		}
+	}
+	
+	
 }

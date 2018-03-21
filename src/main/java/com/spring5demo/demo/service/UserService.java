@@ -9,4 +9,6 @@ public interface UserService {
     User findOneByUsername(String username);
     void saveAuthority(String roleName);
     Authority findOneByName(String roleName);
+    User activateRegistration(String key);
+    public void sendOrderConfirmation(User user);
 }

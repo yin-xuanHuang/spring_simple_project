@@ -6,11 +6,12 @@ CREATE TABLE IF NOT EXISTS `todo` (
 );
 
 CREATE TABLE IF NOT EXISTS `users` (
-    `id`          BIGINT         AUTO_INCREMENT,
-    `username`    VARCHAR(50)    NOT NULL UNIQUE,
-    `password`    VARCHAR(60)    NOT NULL,
-    `email`       VARCHAR(100)   NOT NULL,
-    `enabled`     BOOLEAN NOT NULL  DEFAULT false,
+    `id`                BIGINT         AUTO_INCREMENT,
+    `username`          VARCHAR(50)    NOT NULL UNIQUE,
+    `password`          VARCHAR(60)    NOT NULL,
+    `email`             VARCHAR(100)   NOT NULL,
+    `enabled`           BOOLEAN NOT NULL  DEFAULT false,
+    `activation_key`    VARCHAR(20),
     PRIMARY KEY (`id`)
 );
 

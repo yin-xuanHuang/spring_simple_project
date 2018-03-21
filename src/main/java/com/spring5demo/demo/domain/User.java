@@ -47,6 +47,10 @@ public class User implements Serializable {
 	@NotNull
 	@Column(nullable = false)
 	private boolean enabled = false;
+	
+	@Size(max = 20)
+	@Column(name = "activation_key", length = 20)
+	private String activationKey;
 
 	@ManyToMany
 	@JoinTable(name = "user_authority", 
@@ -54,15 +58,16 @@ public class User implements Serializable {
 	           inverseJoinColumns = @JoinColumn(name = "authority_name", referencedColumnName = "name"))
 	private Set<Authority> authorities = new HashSet<>();
 
-	public User(Long id, String username, String email, boolean enabled) {
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(Long id, String username, String email, boolean enabled, String activationKey) {
 		this.id=id;
 		this.username=username;
 		this.email=email;
 		this.enabled=enabled;
-	}
-
-	public User() {
-		// TODO Auto-generated constructor stub
+		this.activationKey=activationKey;
 	}
 
 	public Long getId() {
@@ -117,6 +122,14 @@ public class User implements Serializable {
 		this.authorities.add(authority);
 	}
 
+	public String getActivationKey() {
+		return activationKey;
+	}
+
+	public void setActivationKey(String activationKey) {
+		this.activationKey = activationKey;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -138,7 +151,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User{" + "username='" + username + '\'' + ", email='" + email + '\'' + ", enabled='" + enabled + '\'' + "}";
+		return "User{" + "username='" + username + '\'' + ", email='" + email + '\'' + ", enabled='" + enabled + '\'' + ", activationKey='" + activationKey + '\'' + "}";
 	}
 
 }

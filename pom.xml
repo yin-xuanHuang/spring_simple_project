@@ -52,6 +52,12 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -122,6 +128,7 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>5.2.15.Final</version>
 		</dependency>
+
 		<!-- H2 -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -129,7 +136,6 @@
 			<version>1.4.196</version>
 			<scope>runtime</scope>
 		</dependency>
-
 		<!-- MySQL-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -137,16 +143,11 @@
 			<version>${mysql.version}</version>
 		</dependency>
 
-		<!-- JSTL -->
+		<!-- commons-lang3 -->
 		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>jstl-api</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
 		</dependency>
 
 
@@ -160,6 +161,20 @@
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring5</artifactId>
 			<version>${thymeleaf.version}</version>
+		</dependency>
+
+		<!-- JavaMail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<!-- The JavaMail API is available as an optional package for use with Java 
+				SE platform and is also included in the Java EE platform. -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 
 		<!-- Logging -->
