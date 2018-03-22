@@ -3,12 +3,12 @@ package com.spring5demo.demo.datasource;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
 @Profile("devH2")
 public class DevEmbeddedDatasourceConfig implements DatasourceConfig {
 

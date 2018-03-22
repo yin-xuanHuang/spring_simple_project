@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,7 +53,7 @@ public class User implements Serializable {
 	@Column(name = "activation_key", length = 20)
 	private String activationKey;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", 
 	           joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"), 
 	           inverseJoinColumns = @JoinColumn(name = "authority_name", referencedColumnName = "name"))

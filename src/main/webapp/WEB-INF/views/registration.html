@@ -4,19 +4,8 @@
 <title>Registration</title>
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
-<style type="text/css">
-body {
-	background-color: #DADADA;
-}
-
-body>.grid {
-	height: 100%;
-}
-
-.column {
-	max-width: 450px;
-}
-</style>
+<link type="text/css" rel="stylesheet"
+	th:href="@{/resources/css/userCss.css}">
 </head>
 
 <body>
@@ -46,7 +35,9 @@ body>.grid {
 								placeholder="Email">
 						</div>
 					</div>
-					<button class="ui fluid large submit green button">Register</button>
+					<button class="ui fluid large submit blue button">Register</button>
+					<p></p>
+					<a class="ui fluid large submit green button" th:href="@{/login}" th:text="Login">login</a>
 				</div>
 
 				<div th:if="${#fields.hasErrors('*')}" class="ui error message" style="display: block;">

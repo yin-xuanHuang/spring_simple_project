@@ -4,24 +4,11 @@
 <title>Login</title>
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
-<style type="text/css">
-body {
-	background-color: #DADADA;
-}
-
-body>.grid {
-	height: 100%;
-}
-
-.column {
-	max-width: 450px;
-}
-</style>
+<link type="text/css" rel="stylesheet"
+	th:href="@{/resources/css/userCss.css}">
 </head>
 
 <body>
-<a th:href=@{/registration}>register</a>
-
 	<div class="ui middle aligned center aligned grid">
 		<div class="column">
 			<h2 class="ui header">Log-in to your account</h2>
@@ -48,6 +35,8 @@ body>.grid {
 						</div>
 					</div>
 					<button class="ui fluid large submit green button">Login</button>
+					<p></p>
+					<a class="ui fluid large submit blue button" th:href="@{/registration}" th:text="Register">register</a>
 				</div>
 
                 <div th:if=${param.error} th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" 
