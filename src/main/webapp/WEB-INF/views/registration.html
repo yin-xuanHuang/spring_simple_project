@@ -6,6 +6,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 <link type="text/css" rel="stylesheet"
 	th:href="@{/resources/css/userCss.css}">
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body>
@@ -35,6 +36,9 @@
 								placeholder="Email">
 						</div>
 					</div>
+					<div class="field">
+                			<div class="g-recaptcha" data-sitekey="6LdtI04UAAAAAIAICGfldc44pd2280KrOdb7Ben-"></div>
+                	</div>
 					<button class="ui fluid large submit blue button">Register</button>
 					<p></p>
 					<a class="ui fluid large submit green button" th:href="@{/login}" th:text="Login">login</a>
@@ -47,6 +51,10 @@
                 		th:text="'Password: ' + ${err}">Input is incorrect</li></ul>
                 	<ul><li th:each="err : ${#fields.errors('email')}" 
                 		th:text="'Email: ' + ${err}">Input is incorrect</li></ul>
+                </div>
+                <div th:if="${captcha_errors}" class="ui error message" style="display: block;">
+					<ul><li th:each="err : ${captcha_errors}" 
+                		th:text="'captcha: ' + ${err}">captcha is wrong</li></ul>
                 </div>
 			</form>
 		</div>

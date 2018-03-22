@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
+	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,10 +40,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/todos*").hasAuthority("ROLE_USER")
-				.antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ROLE_ADMIN").anyRequest().permitAll().and()
-				.httpBasic().disable().formLogin().loginPage("/login").loginProcessingUrl("/login")
-				.failureUrl("/login?error=true").permitAll().and().logout().logoutSuccessUrl("/logout-success");
+		http.authorizeRequests()
+				.antMatchers("/todos*").hasAuthority("ROLE_USER")
+				.antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ROLE_ADMIN")
+				.anyRequest().permitAll()
+			.and()
+				.httpBasic().disable()
+				.formLogin()
+					.loginPage("/login")
+					.loginProcessingUrl("/login")
+					.failureUrl("/login?error=true")
+					.permitAll()
+			.and()
+				.logout()
+				.logoutSuccessUrl("/logout-success");
 	}
 
 	@Bean
