@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring5demo.demo.domain.User;
+import com.spring5demo.demo.dto.UserRegister;
 import com.spring5demo.demo.service.RecaptchaService;
 import com.spring5demo.demo.service.UserService;
 
@@ -45,12 +46,12 @@ public class UserController {
 
 	@GetMapping("/registration")
 	public String registration(Model model) {
-		model.addAttribute("user", new User());
+		model.addAttribute("user", new UserRegister());
 		return "registration";
 	}
 
 	@PostMapping("/registration")
-	public String newMessage(@ModelAttribute @Valid User user,
+	public String newMessage(@ModelAttribute @Valid UserRegister user,
 			@RequestParam(name = "g-recaptcha-response") String recaptchaResponse, HttpServletRequest request,
 			Errors errors, Model model) {
 
@@ -60,6 +61,7 @@ public class UserController {
 		
 		if ( captchaVerifyMessage != null) {
 			model.addAttribute("captcha_errors", captchaVerifyMessage);
+			model.addAttribute("usr", user);
 			return "registration";
 		}
 		
@@ -67,8 +69,19 @@ public class UserController {
 			return "registration";
 		}
 		
-		userService.save(user);
-		userService.sendOrderConfirmation(user);
+		if (!user.getPassword().equals(user.getMatchingPassword())) {
+			model.addAttribute("password", "Password and confirm password don't match.");
+			model.addAttribute("user", user);
+			return "registration";
+		}
+		
+		User userDao = new User();
+		userDao.setUsername(user.getUsername());
+		userDao.setPassword(user.getPassword());
+		userDao.setEmail(user.getEmail());
+		
+		userService.save(userDao);
+		userService.sendOrderConfirmation(userDao);
 		return "redirect:/todos";
 	}
 

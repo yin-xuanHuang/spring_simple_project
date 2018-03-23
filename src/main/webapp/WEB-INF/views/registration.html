@@ -32,6 +32,12 @@
 					</div>
 					<div class="field">
 						<div class="ui left icon input">
+							<i class="lock icon"></i> <input type="password" name="matchingPassword" th:field="*{matchingPassword}" 
+								placeholder="Password again">
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui left icon input">
 							<i class="envelope outline icon"></i> <input type="email" name="email" th:field="*{email}"
 								placeholder="Email">
 						</div>
@@ -54,7 +60,11 @@
                 </div>
                 <div th:if="${captcha_errors}" class="ui error message" style="display: block;">
 					<ul><li th:each="err : ${captcha_errors}" 
-                		th:text="'captcha: ' + ${err}">captcha is wrong</li></ul>
+                		th:text="'reCAPTCHA: ' + ${err}">Captcha is wrong</li></ul>
+                </div>
+                <div th:if="${password}" class="ui error message" style="display: block;">
+					<ul><li th:if="${password}" 
+                		th:text="'Password: ' + ${password}">Password is wrong</li></ul>
                 </div>
 			</form>
 		</div>
