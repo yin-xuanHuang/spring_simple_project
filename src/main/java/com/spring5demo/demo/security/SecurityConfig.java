@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests()
 				.antMatchers("/todos*").hasAuthority("ROLE_USER")
+				.antMatchers("resetPassword").hasAuthority("ROLE_USER")
 				.antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ROLE_ADMIN")
 				.anyRequest().permitAll()
 			.and()

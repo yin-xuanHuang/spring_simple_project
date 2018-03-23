@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.spring5demo.demo.domain.User;
+import com.spring5demo.demo.dto.UserPassword;
 import com.spring5demo.demo.util.RandomUtil;
 
 public class HibernateUserRepository implements UserRepository {
@@ -33,13 +34,30 @@ public class HibernateUserRepository implements UserRepository {
 		return currentSession().get(User.class, id);
 	}
 	
-
 	@Override
 	public User findOneByUsername(String username) {
 		return (User) currentSession()
 							.createQuery("from User where username=?")
 							.setParameter(0, username)
 							.uniqueResult();
+	}
+	
+	@Override
+	public User findOneByEmail(String email) {
+		return (User) currentSession()
+				.createQuery("from User where email=?")
+				.setParameter(0, email)
+				.uniqueResult();
+	}
+	
+	@Override
+	public String passwordReset(User user) {
+		String passwordReset = RandomUtil.generatePassword();		
+		String encode = passwordEncoder.encode(passwordReset);
+		user.setPassword(encode);
+		currentSession().update(user);
+		log.debug("user: {} 's password be reset.", user.getUsername());
+		return passwordReset;
 	}
 
 	@Override
@@ -93,6 +111,19 @@ public class HibernateUserRepository implements UserRepository {
 			return user;
 		}
 	}
-	
+
+	@Override
+	public boolean passwordReset(User checkUser, UserPassword user) {
+		
+		if(passwordEncoder.matches(user.getOldPassword(), checkUser.getPassword())) {
+			
+			checkUser.setPassword(passwordEncoder.encode(user.getPassword()));
+			currentSession().update(checkUser);
+			
+			log.debug("User({})'s password change.", checkUser.getUsername());
+			return true;
+		}
+		return false;
+	}
 	
 }

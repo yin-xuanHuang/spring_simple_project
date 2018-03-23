@@ -13,6 +13,11 @@
 		<div class="column">
 			<h2 class="ui header">Log-in to your account</h2>
 			<form method="POST" th:action="@{/login}" class="ui large form">
+				
+				<div th:if="${email_password_reset}" class="ui error message" style="display: block;">
+					<ul><li th:text="${email_password_reset}">New Password Email has been sent.</li></ul>
+                </div>
+			
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
 				<div class="ui stacked segment">
@@ -37,6 +42,8 @@
 					<button class="ui fluid large submit green button">Login</button>
 					<p></p>
 					<a class="ui fluid large submit blue button" th:href="@{/registration}" th:text="Register">register</a>
+					<p></p>
+					<a th:href="@{/forgetPassword}" th:text="'Forget Password'">forget password</a>
 				</div>
 
                 <div th:if=${param.error} th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" 

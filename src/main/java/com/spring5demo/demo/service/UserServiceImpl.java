@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring5demo.demo.domain.AuthoritiesConstants;
 import com.spring5demo.demo.domain.Authority;
 import com.spring5demo.demo.domain.User;
+import com.spring5demo.demo.dto.UserPassword;
 import com.spring5demo.demo.repository.AuthorityRepository;
 import com.spring5demo.demo.repository.UserRepository;
 
@@ -38,21 +39,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void enabled(String username) {
-		User user = findOneByUsername(username);
-		user.setEnabled(true);
-		this.userRepository.save(user);
-
-	}
-
-	@Override
 	public User findOneByUsername(String username) {
 		return this.userRepository.findOneByUsername(username);
 	}
 	
 	@Override
-	public void saveAuthority(String roleName) {
-		this.authorityRepository.save(roleName);
+	public User findOneByEmail(String email) {
+		return this.userRepository.findOneByEmail(email);
 	}
 
 	@Override
@@ -66,7 +59,24 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public void saveAuthority(String roleName) {
+		this.authorityRepository.save(roleName);
+	}
+	
+	@Override
     public void sendOrderConfirmation(User user) {
-        mailService.sendEmail(user);
+        this.mailService.sendConfirmationEmail(user);
     }
+
+	@Override
+	public void sendPasswordReset(User checkUser) {
+		String temp = this.userRepository.passwordReset(checkUser);
+		this.mailService.sendPasswordResetEmail(checkUser, temp);	
+	}
+
+	@Override
+	public boolean passwordReset(User checkUser, UserPassword user) {
+		return this.userRepository.passwordReset(checkUser, user);
+	}
+	
 }
