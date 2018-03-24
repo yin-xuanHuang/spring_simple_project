@@ -17,7 +17,7 @@ public class Todo {
 
     private String owner;
 
-    @NotEmpty
+    @NotEmpty(message = "Can not be empty.")
     private String description;
 
     private boolean completed = false;

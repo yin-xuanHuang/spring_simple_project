@@ -6,8 +6,8 @@ import javax.validation.constraints.Size;
 
 public class UserEmail {
 	
-	@NotNull
-	@Email
+	@NotNull(message = "{validate.user.notnull}")
+	@Email(message = "{validate.user.email}")
 	@Size(min = 5, max = 100)
 	private String email;
 

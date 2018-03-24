@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring5demo.demo.domain.Todo;
+import com.spring5demo.demo.exception.PermissionDeniedException;
 import com.spring5demo.demo.repository.TodoRepository;
 
 @Service
@@ -32,14 +33,23 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public void complete(long id) {
+	public void complete(long id, String username) {
 		Todo todo = this.findById(id);
+		if(!todo.getOwner().equals(username)) {
+			String message = "Permission denied.(owner: " + todo.getOwner() + ")";
+			throw new PermissionDeniedException(message);
+		}
 		todo.setCompleted(true);
 		this.todoRepository.save(todo);
 	}
 
 	@Override
-	public void remove(long id) {
+	public void remove(long id, String username) {
+		Todo todo = this.findById(id);
+		if(!todo.getOwner().equals(username)) {
+			String message = "Permission denied.(owner: " + todo.getOwner() + ")";
+			throw new PermissionDeniedException(message);
+		}
 		this.todoRepository.remove(id);
 	}
 

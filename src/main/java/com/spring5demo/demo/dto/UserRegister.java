@@ -9,21 +9,21 @@ import com.spring5demo.demo.domain.Constants;
 
 public class UserRegister {
 	
-	@NotNull
+	@NotNull(message = "{validate.user.notnull}")
 	@Pattern(regexp = Constants.LOGIN_REGEX)
-	@Size(min = 4, max = 50)
+	@Size(min = 4, max = 50, message = "{validate.user.four2fifty}")
 	private String username;
 
-	@NotNull
-	@Size(min = 4, max = 60)
+	@NotNull(message = "{validate.user.notnull}")
+	@Size(min = 4, max = 60, message = "{validate.user.four2sixty}")
 	private String password;
 	
-	@NotNull
-	@Size(min = 4, max = 60)
+	@NotNull(message = "{validate.user.notnull}")
+	@Size(min = 4, max = 60, message = "{validate.user.four2sixty}")
 	private String matchingPassword;
 
-	@NotNull
-	@Email
+	@NotNull(message = "{validate.user.notnull}")
+	@Email(message = "{validate.user.email}")
 	@Size(min = 5, max = 100)
 	private String email;
 

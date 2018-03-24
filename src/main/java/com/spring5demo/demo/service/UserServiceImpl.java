@@ -30,11 +30,23 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void save(User user) {
+	public int save(User user) {
+		User existUser = this.userRepository.findOneByUsername(user.getUsername());
+		if(existUser != null) {
+			return 1;
+		}
+		
+		existUser = this.userRepository.findOneByEmail(user.getEmail());
+		if(existUser != null) {
+			return 2;
+		}
+		
 		Authority authority = this.authorityRepository.findOneByName(AuthoritiesConstants.USER);
         user.addAuthority(authority);
         
 		this.userRepository.save(user);
+		
+		return 0;
 
 	}
 

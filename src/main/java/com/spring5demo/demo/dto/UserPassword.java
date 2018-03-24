@@ -5,16 +5,16 @@ import javax.validation.constraints.Size;
 
 public class UserPassword {
 	
-	@NotNull
-	@Size(min = 4, max = 60)
+	@NotNull(message = "{validate.user.notnull}")
+	@Size(min = 4, max = 60, message = "{validate.user.four2sixty}")
 	private String oldPassword;
 	
-	@NotNull
-	@Size(min = 4, max = 60)
+	@NotNull(message = "{validate.user.notnull}")
+	@Size(min = 4, max = 60, message = "{validate.user.four2sixty}")
 	private String password;
 	
-	@NotNull
-	@Size(min = 4, max = 60)
+	@NotNull(message = "{validate.user.notnull}")
+	@Size(min = 4, max = 60, message = "{validate.user.four2sixty}")
 	private String matchingPassword;
 
 	public String getOldPassword() {

@@ -9,10 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,25 +52,26 @@ public class UserController {
 	}
 
 	@PostMapping("/registration")
-	public String newMessage(@ModelAttribute @Valid UserRegister user,
+	public String newMessage(@ModelAttribute("user") @Valid UserRegister user, BindingResult result,
 			@RequestParam(name = "g-recaptcha-response") String recaptchaResponse, HttpServletRequest request,
-			Errors errors, Model model) {
+			Model model) {
 
 		String ip = request.getRemoteAddr();
 		List<String> captchaVerifyMessage = captchaService.verifyRecaptcha(ip, recaptchaResponse);
 
 		if (captchaVerifyMessage != null) {
 			model.addAttribute("captcha_errors", captchaVerifyMessage);
-			model.addAttribute("usr", user);
+			model.addAttribute("user", user);
 			return "registration";
 		}
 
-		if (errors.hasErrors()) {
+		if (result.hasErrors()) {
+			model.addAttribute("user", user);
 			return "registration";
 		}
 
 		if (!user.getPassword().equals(user.getMatchingPassword())) {
-			model.addAttribute("password", "Password and confirm password don't match.");
+			model.addAttribute("message", "Password and confirm password don't match.");
 			model.addAttribute("user", user);
 			return "registration";
 		}
@@ -82,7 +81,17 @@ public class UserController {
 		userDao.setPassword(user.getPassword());
 		userDao.setEmail(user.getEmail());
 
-		userService.save(userDao);
+		int status = userService.save(userDao);
+		if (status == 1) {
+			model.addAttribute("message", "The username already exist.");
+			model.addAttribute("user", user);
+			return "registration";
+		} else if (status == 2) {
+			model.addAttribute("message", "The email already exist.");
+			model.addAttribute("user", user);
+			return "registration";
+		}
+
 		userService.sendOrderConfirmation(userDao);
 		return "redirect:/todos";
 	}
@@ -94,28 +103,30 @@ public class UserController {
 	}
 
 	@PostMapping("/forgetPassword")
-	public String forgetPassword(@ModelAttribute @Valid UserEmail user,
+	public String forgetPassword(@ModelAttribute("user") @Valid UserEmail user, BindingResult result,
 			@RequestParam(name = "g-recaptcha-response") String recaptchaResponse, HttpServletRequest request,
-			Errors errors, Model model) {
+			Model model) {
 
 		String ip = request.getRemoteAddr();
 		List<String> captchaVerifyMessage = captchaService.verifyRecaptcha(ip, recaptchaResponse);
 
 		if (captchaVerifyMessage != null) {
 			model.addAttribute("captcha_errors", captchaVerifyMessage);
-			model.addAttribute("usr", user);
-			return "registration";
+			model.addAttribute("user", user);
+			return "forgetPassword";
 		}
 
-		if (errors.hasErrors()) {
-			return "registration";
+		if (result.hasErrors()) {
+			model.addAttribute("user", user);
+			return "forgetPassword";
 		}
 
 		User checkUser = userService.findOneByEmail(user.getEmail());
 
 		if (checkUser == null) {
-			model.addAttribute("email_error", user.getEmail() + "doesn't exist.");
-			return "registratin";
+			model.addAttribute("email_error", user.getEmail() + " doesn't exist.");
+			model.addAttribute("user", user);
+			return "forgetPassword";
 		}
 
 		userService.sendPasswordReset(checkUser);
@@ -132,12 +143,14 @@ public class UserController {
 	}
 
 	@PostMapping("/resetPassword")
-	public String resetPassword(@ModelAttribute @Valid UserPassword user, Errors errors, Model model, Principal principal) {
+	public String resetPassword(@ModelAttribute("user") @Valid UserPassword user, BindingResult result, Model model,
+			Principal principal) {
 
-		if (errors.hasErrors()) {
+		if (result.hasErrors()) {
+			model.addAttribute("user", user);
 			return "resetPassword";
 		}
-		
+
 		if (!user.getPassword().equals(user.getMatchingPassword())) {
 			model.addAttribute("password", "Password and confirm password don't match.");
 			model.addAttribute("user", user);
@@ -151,9 +164,9 @@ public class UserController {
 			model.addAttribute("user", user);
 			return "resetPassword";
 		}
-		
+
 		model.addAttribute("username", checkUser.getUsername());
-		
+
 		return "password-change-success";
 	}
 
@@ -167,15 +180,7 @@ public class UserController {
 			return "activate-success";
 		}
 
-		return "redirect:/todos";
+		return "forbidden";
 
 	}
-
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		// We don't want to bind the id, enable,and authorities fields as we control
-		// them in this controller and service instead.
-		binder.setDisallowedFields("id", "enable", "authorities");
-	}
-
 }

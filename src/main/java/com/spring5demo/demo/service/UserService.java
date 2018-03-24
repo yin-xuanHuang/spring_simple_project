@@ -11,7 +11,7 @@ public interface UserService {
 	
 	User activateRegistration(String key);
 	
-	void save(User user);
+	int save(User user);
     void saveAuthority(String roleName);
     
     void sendOrderConfirmation(User user);

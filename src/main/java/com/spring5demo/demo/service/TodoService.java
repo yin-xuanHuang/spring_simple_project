@@ -8,7 +8,7 @@ public interface TodoService {
 
     List<Todo> listTodos();
     void save(Todo todo);
-    void complete(long id);
-    void remove(long id);
+    void complete(long id, String username);
+    void remove(long id, String username);
     Todo findById(long id);
 }

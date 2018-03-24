@@ -12,7 +12,7 @@
 <body>
 	<div class="ui middle aligned center aligned grid">
 		<div class="column">
-			<h2 class="ui header">Register a new account</h2>
+			<h2 class="ui header" th:text="#{index.title}">Register a new account</h2>
 			<form method="POST" th:object="${user}" th:action="@{/registration}" class="ui large form">
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
@@ -20,25 +20,25 @@
 				
 					<div class="field">
 						<div class="ui left icon input">
-							<i class="user icon"></i> <input type="text" name="username" th:field="*{username}" 
+							<i class="user icon"></i> <input id="username" type="text" name="username" th:field="*{username}" 
 								placeholder="Username">
 						</div>
 					</div>
 					<div class="field">
 						<div class="ui left icon input">
-							<i class="lock icon"></i> <input type="password" name="password" th:field="*{password}" 
+							<i class="lock icon"></i> <input id="password" type="password" name="password" th:field="*{password}" 
 								placeholder="Password">
 						</div>
 					</div>
 					<div class="field">
 						<div class="ui left icon input">
-							<i class="lock icon"></i> <input type="password" name="matchingPassword" th:field="*{matchingPassword}" 
+							<i class="lock icon"></i> <input id="matchingPassword" type="password" name="matchingPassword" th:field="*{matchingPassword}" 
 								placeholder="Password again">
 						</div>
 					</div>
 					<div class="field">
 						<div class="ui left icon input">
-							<i class="envelope outline icon"></i> <input type="email" name="email" th:field="*{email}"
+							<i class="envelope outline icon"></i> <input id="email" type="email" name="email" th:field="*{email}"
 								placeholder="Email">
 						</div>
 					</div>
@@ -55,15 +55,17 @@
                 		th:text="'Username: ' + ${err}">Input is incorrect</li></ul>
                 	<ul><li th:each="err : ${#fields.errors('password')}" 
                 		th:text="'Password: ' + ${err}">Input is incorrect</li></ul>
+                	<ul><li th:each="err : ${#fields.errors('matchingPassword')}" 
+                		th:text="'matchingPassword: ' + ${err}">Input is incorrect</li></ul>
                 	<ul><li th:each="err : ${#fields.errors('email')}" 
                 		th:text="'Email: ' + ${err}">Input is incorrect</li></ul>
                 </div>
                 <div th:if="${captcha_errors}" class="ui error message" style="display: block;">
 					<ul><li th:each="err : ${captcha_errors}" 
-                		th:text="'reCAPTCHA: ' + ${err}">Captcha is wrong</li></ul>
+                		th:text="'reCAPTCHA: ' + ${err}">reCAPTCHA is wrong</li></ul>
                 </div>
-                <div th:if="${password}" class="ui error message" style="display: block;">
-					<ul><li th:text="'Password: ' + ${password}">Password is wrong</li></ul>
+                <div th:if="${message}" class="ui error message" style="display: block;">
+					<ul><li th:text="'Error: ' + ${message}">Error Message</li></ul>
                 </div>
 			</form>
 		</div>

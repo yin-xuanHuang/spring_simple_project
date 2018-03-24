@@ -29,23 +29,23 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@NotNull(message = "{validate.user.notnull}")
 	@Pattern(regexp = Constants.LOGIN_REGEX)
-	@Size(min = 4, max = 50)
+	@Size(min = 4, max = 50, message = "{validate.user.four2fifty}")
 	@Column(length = 50, unique = true, nullable = false)
 	private String username;
 
-	@NotNull
-	@Size(min = 4, max = 60)
+	@NotNull(message = "{validate.user.notnull}")
+	@Size(min = 4, max = 60, message = "{validate.user.four2sixty}")
 	@Column(length = 60)
 	private String password;
 
-	@Email
+	@Email(message = "{validate.user.email}")
 	@Size(min = 5, max = 100)
 	@Column(length = 100, unique = true)
 	private String email;
 
-	@NotNull
+	@NotNull(message = "{validate.user.notnull}")
 	@Column(nullable = false)
 	private boolean enabled = false;
 	

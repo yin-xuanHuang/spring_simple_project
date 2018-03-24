@@ -9,6 +9,10 @@
 <body>
 <div class="ui container">
     <h4>New To-do</h4>
+    <div th:if="${#fields.hasErrors('*')}" class="ui error message" style="display: block;">
+					<ul><li th:each="err : ${#fields.errors('description')}" 
+                		th:text="'Description: ' + ${err}">Input is incorrect</li></ul>
+     </div>
      <form method="POST" th:object="${todo}" th:action="@{/todos}" class="ui form">
         <fieldset>
             <legend>To-do</legend>

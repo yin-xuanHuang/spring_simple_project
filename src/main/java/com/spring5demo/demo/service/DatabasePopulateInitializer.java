@@ -2,9 +2,8 @@ package com.spring5demo.demo.service;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.spring5demo.demo.domain.AuthoritiesConstants;
@@ -12,6 +11,7 @@ import com.spring5demo.demo.domain.Authority;
 import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.domain.User;
 
+@Profile("pupulate")
 @Component
 public class DatabasePopulateInitializer {
 
@@ -19,8 +19,6 @@ public class DatabasePopulateInitializer {
     
     private UserService autoRegisterService;
     
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     public DatabasePopulateInitializer(TodoService messageBoardService, UserService autoRegisterService) {
         this.messageBoardService = messageBoardService;
