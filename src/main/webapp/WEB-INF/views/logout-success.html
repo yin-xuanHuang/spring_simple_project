@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title th:text="#{logout.title}">Logout success</title>
     <link type="text/css" rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
     <style type="text/css">
@@ -20,8 +21,8 @@
 <body>
 <div class="ui middle aligned center aligned grid">
     <div class="column">
-        <h2 class="ui header">You have been successfully logged out</h2>
-        <div>Goto <a th:href="@{/}" class="link">todo list</a>.</div>
+        <h2 class="ui header" th:text="#{logout.h2}">You have been successfully logged out</h2>
+        <a th:href="@{/}" class="ui mini positive button" th:text="#{logout.link}">todo list</a>
     </div>
 </div>
 </body>

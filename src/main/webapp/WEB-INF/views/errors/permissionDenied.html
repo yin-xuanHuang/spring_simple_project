@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Permission Denied</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title th:text="#{permission.title}">Permission Denied</title>
     <link type="text/css" rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
     <style type="text/css">
@@ -20,8 +21,8 @@
 <body>
 <div class="ui middle aligned center aligned grid">
     <div class="column">
-        <h2 class="ui header">Sorry, you don't have the permission to do that.</h2>
-        <div>Goto <a th:href="@{/}" class="link">todo list</a>.</div>
+        <h2 class="ui header" th:text="#{permission.h2}">Sorry, you don't have the permission to do that.</h2>
+        <a th:href="@{/}" class="ui mini positive button" th:text="#{permission.link}">todo list</a>
     </div>
 </div>
 </body>

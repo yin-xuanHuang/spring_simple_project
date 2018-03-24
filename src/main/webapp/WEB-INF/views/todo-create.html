@@ -1,32 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Message Post</title>
-    <link type="text/css" rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title th:text="#{todo.create.title}">Message Post</title>
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 </head>
 
 <body>
-<div class="ui container">
-    <h4>New To-do</h4>
-    <div th:if="${#fields.hasErrors('*')}" class="ui error message" style="display: block;">
-					<ul><li th:each="err : ${#fields.errors('description')}" 
-                		th:text="'Description: ' + ${err}">Input is incorrect</li></ul>
-     </div>
-     <form method="POST" th:object="${todo}" th:action="@{/todos}" class="ui form">
-        <fieldset>
-            <legend>To-do</legend>
-            <div class="field">
-                <label>To-do</label>
-                <input type="text" th:field="*{description}" />
-            </div>
-            <div class="field">
-                <label>Completed</label>
-                <input type="checkbox" th:field="*{completed}" />
-            </div>
-            <button class="ui mini primary button">Save <i class="send icon"></i></button>
-        </fieldset>
-    </form>
-</div>
+	<div class="ui container">
+		<h4 th:text="#{todo.create.h4}">New To-do</h4>
+		<form method="POST" th:object="${todo}" th:action="@{/todos}"
+			class="ui form">
+			<fieldset>
+				<legend th:text="#{todo.create.legend}">To-do</legend>
+				<div class="field">
+					<label th:text="#{todo.create.description.label}">To-do</label> <input
+						type="text" th:field="*{description}" />
+				</div>
+				<div class="field">
+					<label th:text="#{todo.create.completed.label}">Completed</label> <input
+						type="checkbox" th:field="*{completed}" />
+				</div>
+				<button class="ui mini primary button"
+					th:text="#{todo.create.button}">
+					Save <i class="send icon"></i>
+				</button>
+				<p></p>
+				<a th:href="@{/}" class="ui mini positive button"
+					th:text="#{todo.create.home}">
+					home <i class="send icon"></i>
+				</a>
+			</fieldset>
+			<div th:if="${#fields.hasErrors('*')}" class="ui error message"
+				style="display: block;">
+				<ul>
+					<li th:each="err : ${#fields.errors('description')}"
+						th:text="'Description: ' + ${err}">Input is incorrect</li>
+				</ul>
+			</div>
+		</form>
+	</div>
 </body>
 </html>

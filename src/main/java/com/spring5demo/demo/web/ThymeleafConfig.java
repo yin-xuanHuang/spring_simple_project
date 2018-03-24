@@ -10,6 +10,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -23,7 +24,7 @@ public class ThymeleafConfig {
 		templateResolver.setPrefix("/WEB-INF/views/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode("HTML5");
-		templateResolver.setCharacterEncoding("UTF-8");
+		templateResolver.setCharacterEncoding("utf-8");
 		return templateResolver;
 	}
 
@@ -32,6 +33,7 @@ public class ThymeleafConfig {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.setTemplateEngineMessageSource(messageSource());
+		templateEngine.addDialect(new SpringSecurityDialect());
 		return templateEngine;
 	}
 
@@ -39,6 +41,7 @@ public class ThymeleafConfig {
 	 public ThymeleafViewResolver viewResolver() {
 	 ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 	 viewResolver.setTemplateEngine(templateEngine());
+	 viewResolver.setCharacterEncoding("utf-8");
 	 viewResolver.setOrder(0);
 	 return viewResolver;
 	 }
@@ -47,7 +50,7 @@ public class ThymeleafConfig {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:i18n/messages");
-		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setDefaultEncoding("utf-8");
 		return messageSource;
 	}
 
@@ -62,7 +65,7 @@ public class ThymeleafConfig {
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-		sessionLocaleResolver.setDefaultLocale(new Locale("en", "EN"));
+		sessionLocaleResolver.setDefaultLocale(new Locale("zh", "TW"));
 		return sessionLocaleResolver;
 	}
 }

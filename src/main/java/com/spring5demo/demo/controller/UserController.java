@@ -99,7 +99,7 @@ public class UserController {
 	@GetMapping("/forgetPassword")
 	public String forgetPassword(Model model) {
 		model.addAttribute("user", new UserEmail());
-		return "forgetPassword";
+		return "forget-password";
 	}
 
 	@PostMapping("/forgetPassword")
@@ -113,12 +113,12 @@ public class UserController {
 		if (captchaVerifyMessage != null) {
 			model.addAttribute("captcha_errors", captchaVerifyMessage);
 			model.addAttribute("user", user);
-			return "forgetPassword";
+			return "forget-password";
 		}
 
 		if (result.hasErrors()) {
 			model.addAttribute("user", user);
-			return "forgetPassword";
+			return "forget-password";
 		}
 
 		User checkUser = userService.findOneByEmail(user.getEmail());
@@ -126,7 +126,7 @@ public class UserController {
 		if (checkUser == null) {
 			model.addAttribute("email_error", user.getEmail() + " doesn't exist.");
 			model.addAttribute("user", user);
-			return "forgetPassword";
+			return "forget-password";
 		}
 
 		userService.sendPasswordReset(checkUser);
@@ -139,7 +139,7 @@ public class UserController {
 	@GetMapping("/resetPassword")
 	public String resetPassword(Model model) {
 		model.addAttribute("user", new UserPassword());
-		return "resetPassword";
+		return "reset-password";
 	}
 
 	@PostMapping("/resetPassword")
@@ -148,13 +148,13 @@ public class UserController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("user", user);
-			return "resetPassword";
+			return "reset-password";
 		}
 
 		if (!user.getPassword().equals(user.getMatchingPassword())) {
 			model.addAttribute("password", "Password and confirm password don't match.");
 			model.addAttribute("user", user);
-			return "resetPassword";
+			return "reset-password";
 		}
 
 		User checkUser = userService.findOneByUsername(principal.getName());
@@ -162,7 +162,7 @@ public class UserController {
 		if (!userService.passwordReset(checkUser, user)) {
 			model.addAttribute("password", "Old password is wrong.");
 			model.addAttribute("user", user);
-			return "resetPassword";
+			return "reset-password";
 		}
 
 		model.addAttribute("username", checkUser.getUsername());
