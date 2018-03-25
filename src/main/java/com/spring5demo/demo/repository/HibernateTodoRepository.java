@@ -51,8 +51,8 @@ public class HibernateTodoRepository implements TodoRepository {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Todo> findByOwner(String author) {
-		return (List<Todo>) currentSession().createCriteria(Todo.class).add(Restrictions.eq("author", author)).list();
+	public List<Todo> findByOwner(String owner) {
+		return (List<Todo>) currentSession().createCriteria(Todo.class).add(Restrictions.eq("owner", owner)).list();
 	}
 
 }

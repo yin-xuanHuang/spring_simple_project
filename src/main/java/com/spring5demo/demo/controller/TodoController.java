@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.exception.PermissionDeniedException;
+import com.spring5demo.demo.exception.ResourceNotFoundException;
 import com.spring5demo.demo.service.TodoService;
 
 @Controller
@@ -74,6 +75,11 @@ public class TodoController {
     @ExceptionHandler(PermissionDeniedException.class)
     public String handlePermissionDenied() {
     	return "errors/permissionDenied";
+    }
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public String handleResourceNotFound() {
+    	return "errors/notFound";
     }
 
 }

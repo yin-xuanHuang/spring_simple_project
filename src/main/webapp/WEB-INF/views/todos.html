@@ -11,7 +11,7 @@
 <body>
 	<div class="ui container">
 		<div class="ui inverted menu">
-			<a class="item" th:href="@{/todos}" th:text="#{index.mark}">To-dos</a>
+			<a class="item" th:href="@{/about}" th:text="#{index.mark}">about</a>
 			<div class="right menu">
 				<div class="item">
 					<a th:href="@{/?language=zh_TW}">
@@ -23,11 +23,14 @@
 						<img th:src="@{/resources/img/us.png}" alt="English" />
 					</a>
 				</div>
-				<div class="item">
+				<div class="item" sec:authorize="!isAuthenticated()" >
+					<a th:href="@{/login}" th:text="#{index.login}">login</a>
+				</div>
+				<div class="item" sec:authorize="isAuthenticated()" >
 					<a th:href="@{/resetPassword}" th:text="#{index.reset.password}">reset
 						password</a>
 				</div>
-				<div class="item">
+				<div class="item" sec:authorize="isAuthenticated()" >
 					<form th:action="@{/logout}" method="POST">
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
@@ -59,7 +62,7 @@
 					<td><div th:text="${todo.description}"></div></td>
 					<td><div th:text="${todo.completed}"></div></td>
 					<td>
-						<div
+						<div sec:authorize="isAuthenticated()" 
 							th:if="${!todo.completed and #authentication.getPrincipal().getUser().getUsername() == todo.owner}">
 							<form th:action="@{/todos/} + ${todo.id} + '/completed'"
 								method="POST" style="float: left;">
@@ -71,7 +74,7 @@
 								</button>
 							</form>
 						</div>
-						<div
+						<div sec:authorize="isAuthenticated()" 
 							th:if="${#authentication.getPrincipal().getUser().getUsername() == todo.owner}">
 							<form th:action="@{/todos/{path}(path=${todo.id})}" method="POST"
 								style="float: left;">

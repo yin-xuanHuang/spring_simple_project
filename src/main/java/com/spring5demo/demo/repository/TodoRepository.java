@@ -12,6 +12,6 @@ public interface TodoRepository {
     void remove(long id);
     Todo save(Todo todo);
 
-    List<Todo> findByOwner(String author);
+    List<Todo> findByOwner(String owner);
 
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,9 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-				.antMatchers("/todos*").hasAuthority("ROLE_USER")
-				.antMatchers("resetPassword").hasAuthority("ROLE_USER")
-				.antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ROLE_ADMIN")
+				.antMatchers("/todos/*").hasAuthority("ROLE_USER")
+				.antMatchers("/resetPassword").hasAuthority("ROLE_USER")
 				.anyRequest().permitAll()
 			.and()
 				.httpBasic().disable()
@@ -52,6 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.loginProcessingUrl("/login")
 					.failureUrl("/login?error=true")
 					.permitAll()
+			.and()
+				.rememberMe()
+				.tokenValiditySeconds(600)
+				.key("spring5demo")
 			.and()
 				.logout()
 				.logoutSuccessUrl("/logout-success");

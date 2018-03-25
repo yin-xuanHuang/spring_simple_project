@@ -52,6 +52,8 @@
 					<a class="ui fluid large submit blue button" th:href="@{/registration}" th:text="#{login.register}">register</a>
 					<p></p>
 					<a th:href="@{/forgetPassword}" th:text="#{login.forget.password}">forget password</a>
+					<p></p>
+					<a class="ui negative basic button" th:href="@{/todos}" th:text="#{login.home}">home</a>
 				</div>
 
                 <div th:if=${param.error} th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" 

@@ -6,9 +6,12 @@ import com.spring5demo.demo.domain.Todo;
 
 public interface TodoService {
 
-    List<Todo> listTodos();
+	Todo findOneById(long id);
+	
     void save(Todo todo);
     void complete(long id, String username);
     void remove(long id, String username);
-    Todo findById(long id);
+    
+    List<Todo> findByOwner(String owner);
+    List<Todo> listTodos();
 }

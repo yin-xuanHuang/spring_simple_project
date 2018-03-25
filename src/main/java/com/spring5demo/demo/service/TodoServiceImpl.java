@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.exception.PermissionDeniedException;
+import com.spring5demo.demo.exception.ResourceNotFoundException;
 import com.spring5demo.demo.repository.TodoRepository;
 
 @Service
@@ -34,7 +35,11 @@ public class TodoServiceImpl implements TodoService {
 
 	@Override
 	public void complete(long id, String username) {
-		Todo todo = this.findById(id);
+		Todo todo = this.findOneById(id);
+		if(todo == null) {
+			throw new ResourceNotFoundException("Wrong request");
+		}
+		
 		if(!todo.getOwner().equals(username)) {
 			String message = "Permission denied.(owner: " + todo.getOwner() + ")";
 			throw new PermissionDeniedException(message);
@@ -45,7 +50,7 @@ public class TodoServiceImpl implements TodoService {
 
 	@Override
 	public void remove(long id, String username) {
-		Todo todo = this.findById(id);
+		Todo todo = this.findOneById(id);
 		if(!todo.getOwner().equals(username)) {
 			String message = "Permission denied.(owner: " + todo.getOwner() + ")";
 			throw new PermissionDeniedException(message);
@@ -54,8 +59,13 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public Todo findById(long id) {
+	public Todo findOneById(long id) {
 		return todoRepository.findOne(id);
 	}
 
+
+	@Override
+	public List<Todo> findByOwner(String owner) {
+		return this.todoRepository.findByOwner(owner);
+	}
 }
