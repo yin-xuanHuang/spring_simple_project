@@ -18,7 +18,14 @@
 				<div th:if="${email_password_reset}" class="ui error message" style="display: block;">
 					<ul><li th:text="${email_password_reset}">New Password Email has been sent.</li></ul>
                 </div>
-			
+			    <div class="item">
+					<a th:href="@{/?language=zh_TW}">
+						<img th:src="@{/resources/img/tw.png}" alt="Chinese (Traditional)" />
+					</a>
+					<a th:href="@{/?language=en}">
+						<img th:src="@{/resources/img/us.png}" alt="English" />
+					</a>
+				</div>
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
 				<div class="ui stacked segment">

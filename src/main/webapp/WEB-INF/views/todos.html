@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title th:text="#{index.title}">To-do List</title>
-	<link type="text/css" rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title th:text="#{index.title}">To-do List</title>
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 </head>
 
 <body>
@@ -14,6 +14,16 @@
 			<a class="item" th:href="@{/todos}" th:text="#{index.mark}">To-dos</a>
 			<div class="right menu">
 				<div class="item">
+					<a th:href="@{/?language=zh_TW}">
+						<img th:src="@{/resources/img/tw.png}" alt="Chinese (Traditional)" />
+					</a>
+				</div>
+				<div class="item">
+					<a th:href="@{/?language=en}">
+						<img th:src="@{/resources/img/us.png}" alt="English" />
+					</a>
+				</div>
+				<div class="item">
 					<a th:href="@{/resetPassword}" th:text="#{index.reset.password}">reset
 						password</a>
 				</div>
@@ -21,12 +31,13 @@
 					<form th:action="@{/logout}" method="POST">
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
-						<button class="ui small red basic compact button" th:text="#{index.logout}">Logout</button>
+						<button class="ui small red basic compact button"
+							th:text="#{index.logout}">Logout</button>
 					</form>
 				</div>
 			</div>
 		</div>
-		<h4 th:text="#{index.h4}">To-dos for</h4>
+		<h4 th:text="#{index.h4}">To-dos List</h4>
 		<div th:if="${message}" class="ui error message"
 			style="display: block;">
 			<ul>
@@ -48,7 +59,8 @@
 					<td><div th:text="${todo.description}"></div></td>
 					<td><div th:text="${todo.completed}"></div></td>
 					<td>
-						<div th:if="${!todo.completed and #authentication.getPrincipal().getUser().getUsername() == todo.owner}">
+						<div
+							th:if="${!todo.completed and #authentication.getPrincipal().getUser().getUsername() == todo.owner}">
 							<form th:action="@{/todos/} + ${todo.id} + '/completed'"
 								method="POST" style="float: left;">
 								<input type="hidden" name="${_csrf.parameterName}"
@@ -59,23 +71,24 @@
 								</button>
 							</form>
 						</div>
-						<div th:if="${#authentication.getPrincipal().getUser().getUsername() == todo.owner}">
-						<form th:action="@{/todos/{path}(path=${todo.id})}" method="POST"
-							style="float: left;">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" /> <input type="hidden" name="_method"
-								value="DELETE" />
-							<button class="ui mini red icon button">
-								<i class="remove circle icon"></i>
-							</button>
-						</form>
+						<div
+							th:if="${#authentication.getPrincipal().getUser().getUsername() == todo.owner}">
+							<form th:action="@{/todos/{path}(path=${todo.id})}" method="POST"
+								style="float: left;">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" /> <input type="hidden" name="_method"
+									value="DELETE" />
+								<button class="ui mini red icon button">
+									<i class="remove circle icon"></i>
+								</button>
+							</form>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3"><a class="ui mini icon button"
-						th:href="@{/todos/new}" th:text="#{index.addNew}">New To-do <i class="add circle icon"></i></a>
-					</td>
+						th:href="@{/todos/new}" th:text="#{index.addNew}">New To-do <i
+							class="add circle icon"></i></a></td>
 				</tr>
 			</tbody>
 		</table>
