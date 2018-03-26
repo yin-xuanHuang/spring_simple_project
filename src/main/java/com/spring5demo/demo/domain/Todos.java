@@ -1,7 +1,6 @@
 package com.spring5demo.demo.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,7 +13,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Todos {
 
 	@XmlElement(name="todo")
-	private List<Todo> todos = new ArrayList<>();
+	private List<Todo> todos = new ArrayList<Todo>();
+
+	public Todos(List<Todo> todos) {
+		this.todos = todos;
+	}
+
+	public Todos() {
+	}
 
 	public List<Todo> getTodos() {
 		return todos;
@@ -22,9 +28,5 @@ public class Todos {
 
 	public void setTodos(List<Todo> todos) {
 		this.todos = todos;
-	}
-	
-	public void addTodos(Collection<Todo> todos) {
-		this.todos.addAll(todos);
 	}
 }

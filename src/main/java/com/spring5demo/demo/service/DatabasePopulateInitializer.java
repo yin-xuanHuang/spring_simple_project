@@ -29,31 +29,31 @@ public class DatabasePopulateInitializer {
     public void setup() {
 
         Todo todo = new Todo();
-        todo.setOwner("marten@ya2do.io");
+        todo.setOwner("marten");
         todo.setDescription("Finish Spring Recipes - Security Chapter");
 
         messageBoardService.save(todo);
 
         todo = new Todo();
-        todo.setOwner("marten@ya2do.io");
+        todo.setOwner("marten");
         todo.setDescription("Get Milk & Eggs");
         todo.setCompleted(true);
         messageBoardService.save(todo);
 
         todo = new Todo();
-        todo.setOwner("marten@ya2do.io");
+        todo.setOwner("marten");
         todo.setDescription("Call parents.");
 
         messageBoardService.save(todo);
 
         todo = new Todo();
-        todo.setOwner("jlong@pivotal.io");
+        todo.setOwner("jlong");
         todo.setDescription("Prepare Cloud Native Presentation");
 
         messageBoardService.save(todo);
 
         todo = new Todo();
-        todo.setOwner("rwinch@pivotal.io");
+        todo.setOwner("rwinch");
         todo.setDescription("Finish Spring Security Reactive.");
 
         messageBoardService.save(todo);
@@ -70,7 +70,7 @@ public class DatabasePopulateInitializer {
     	User user = new User();
     	user.setUsername("adminx");
     	user.setPassword("secret");
-    	user.setEmail("adminx@ya2do.io");
+    	user.setEmail("adminx@ya2io.io");
     	user.setEnabled(true);
     	Authority authority = this.autoRegisterService.findOneByName(AuthoritiesConstants.ADMIN);
     	
@@ -81,7 +81,7 @@ public class DatabasePopulateInitializer {
         user = new User();
         user.setUsername("marten");
         user.setPassword("user");
-        user.setEmail("marten@ya2do.io");
+        user.setEmail("marten@ya2io.io");
         user.setEnabled(true);
         
         this.autoRegisterService.save(user);
