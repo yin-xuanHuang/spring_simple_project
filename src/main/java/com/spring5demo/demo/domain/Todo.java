@@ -8,9 +8,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 @Entity
 @Table(name="todo")
+@XmlRootElement
 public class Todo {
 
 	@Id

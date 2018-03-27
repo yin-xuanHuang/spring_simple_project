@@ -1,6 +1,5 @@
 package com.spring5demo.demo.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
+import com.spring5demo.demo.service.MyUserDetailsService;
+
 @Configuration
 @EnableWebSecurity
 @ComponentScan("com.spring5demo.demo")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	private UserDetailsService userDetailsService;
-
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -56,13 +54,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.key("spring5demo")
 			.and()
 				.logout()
-				.logoutSuccessUrl("/logout-success");
+				.logoutSuccessUrl("/logout-success")
+			.and()
+				.requiresChannel()
+				.antMatchers("/login*").requiresSecure();
+	}
+	
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new MyUserDetailsService();
 	}
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService);
+		authProvider.setUserDetailsService(userDetailsService());
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;
 	}

@@ -11,7 +11,7 @@ import com.spring5demo.demo.domain.Authority;
 import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.domain.User;
 
-@Profile("pupulate")
+@Profile("populate")
 @Component
 public class DatabasePopulateInitializer {
 

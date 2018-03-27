@@ -40,13 +40,13 @@ public class TodoRestController {
 
     }
     
-	@RequestMapping(value="/todos/{username}")
-    public ResponseEntity<?> getRestUserTodos(@PathVariable("username") String username, Model model) {
+	@RequestMapping(value="/todos/{owner}")
+    public ResponseEntity<?> getRestUserTodos(@PathVariable("owner") String owner, Model model) {
     	
-        Todos todos = new Todos(todoService.findByOwner(username));
+        Todos todos = new Todos(todoService.findByOwner(owner));
         
         if(todos.getTodos().isEmpty()) {
-        	MyError error = new MyError(404, "Todos [" + username + "] not found");
+        	MyError error = new MyError(404, "Todos [" + owner + "] not found");
         	return new ResponseEntity<MyError>(error, HttpStatus.NOT_FOUND);
         }
         

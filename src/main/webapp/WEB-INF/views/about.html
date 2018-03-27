@@ -1,29 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title th:text="#{about.title}">About</title>
-    <link type="text/css" rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
-    <style type="text/css">
-        body {
-            background-color: #DADADA;
-        }
-        body > .grid {
-            height: 100%;
-        }
-        .column {
-            max-width: 450px;
-        }
-    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title th:text="#{about.title}">About</title>
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
+<style type="text/css">
+body {
+	background-color: #DADADA;
+}
+
+body>.grid {
+	height: 100%;
+}
+
+.column {
+	max-width: 450px;
+}
+</style>
 </head>
 
 <body>
-<div class="ui middle aligned center aligned grid">
-    <div class="column">
-        <h2 class="ui header" th:text="#{about.h2}">This is about page.</h2>
-        <a th:href="@{/}" class="ui mini positive button" th:text="#{about.link}">todo list</a>
-    </div>
-</div>
+	<div class="ui middle aligned center aligned grid">
+		<div class="column">
+			<h2 class="ui header" th:text="#{about.h2}">About this website</h2>
+			<table class="ui celled table">
+				<thead>
+					<tr>
+						<th th:text="#{about.th.name}">name:</th>
+						<th th:text="#{about.th.use}">use</th>
+					</tr>
+				</thead>
+				<tr>
+					<th>RESTful todos list all(extension:.json .xml):</th>
+					<th>springprojectdemo.ml/api/todos</th>
+				</tr>
+				<tr class="warning">
+					<th>RESTful todos list by owner(extension:.json .xml):</th>
+					<th>springprojectdemo.ml/api/todos/{owner}</th>
+				</tr>
+				<tr>
+					<th>Framework:</th>
+					<th>org.springframework 5.0.2.RELEASE</th>
+				</tr>
+				<tr class="warning">
+					<th>Server:</th>
+					<th>Amozon ec2 Ubuntu</th>
+				</tr>
+				<tr>
+					<th>Database:</th>
+					<th>Amazon RDS MySQL</th>
+				</tr>
+				<tr class="warning">
+					<th>dataSource:</th>
+					<th>basicDataSource</th>
+				</tr>
+				<tr>
+					<th>repository:</th>
+					<th>hibernate ORM</th>
+				</tr>
+				<tr class="warning">
+					<th>i18n:</th>
+					<th>cookieLocaleResolver with localeChangeInterceptor</th>
+				</tr>
+				<tr>
+					<th>passwordEncoder:</th>
+					<th>BCryptPasswordEncoder</th>
+				</tr>
+				<tr class="warning">
+					<th>web view language:</th>
+					<th>Thymeleaf with thymeleaf-extras-springsecurity4</th>
+				</tr>
+			</table>
+			<p></p>
+			<a th:href="@{/}" class="ui mini positive button"
+				th:text="#{about.link}">todo list</a>
+		</div>
+	</div>
 </body>
 </html>

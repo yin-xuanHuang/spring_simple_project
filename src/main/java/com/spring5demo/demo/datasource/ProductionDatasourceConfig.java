@@ -2,7 +2,7 @@ package com.spring5demo.demo.datasource;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@Profile("prod")
+@Profile("default")
 @PropertySource("classpath:/application.properties")
 public class ProductionDatasourceConfig implements DatasourceConfig {
 
@@ -35,7 +35,6 @@ public class ProductionDatasourceConfig implements DatasourceConfig {
 		dataSource.setUsername(userName);
 		dataSource.setPassword(password);
 		dataSource.setInitialSize(5);
-		dataSource.setMaxActive(10);
 		return dataSource;
 	}
 }

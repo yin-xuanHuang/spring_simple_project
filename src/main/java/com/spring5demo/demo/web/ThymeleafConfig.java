@@ -20,7 +20,6 @@ public class ThymeleafConfig {
 		templateResolver.setPrefix("/WEB-INF/views/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode("HTML5");
-		templateResolver.setCharacterEncoding("utf-8");
 		return templateResolver;
 	}
 
@@ -46,7 +45,6 @@ public class ThymeleafConfig {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:i18n/messages");
-		messageSource.setDefaultEncoding("utf-8");
 		return messageSource;
 	}
 
