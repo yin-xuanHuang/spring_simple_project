@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.spring5demo.demo.domain.AuthoritiesConstants;
+import com.spring5demo.demo.domain.Authority;
 import com.spring5demo.demo.domain.User;
 import com.spring5demo.demo.dto.UserEmail;
 import com.spring5demo.demo.dto.UserPassword;
 import com.spring5demo.demo.dto.UserRegister;
+import com.spring5demo.demo.service.AuthorityService;
+import com.spring5demo.demo.service.MailService;
 import com.spring5demo.demo.service.RecaptchaService;
 import com.spring5demo.demo.service.UserService;
 
@@ -27,19 +31,26 @@ public class UserController {
 
 	private UserService userService;
 
+	private AuthorityService authorityService;
+
+	private MailService mailService;
+
 	private RecaptchaService captchaService;
 
 	@Autowired
-	public UserController(UserService userService, RecaptchaService captchaService) {
+	public UserController(UserService userService, AuthorityService authorityService, RecaptchaService captchaService,
+			MailService mailService) {
 		this.userService = userService;
+		this.authorityService = authorityService;
+		this.mailService = mailService;
 		this.captchaService = captchaService;
 	}
-	
+
 	@GetMapping("/about")
 	public String about() {
 		return "about";
 	}
-	
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
@@ -86,6 +97,9 @@ public class UserController {
 		userDao.setPassword(user.getPassword());
 		userDao.setEmail(user.getEmail());
 
+		Authority authority = this.authorityService.findOneByName(AuthoritiesConstants.USER);
+		userDao.addAuthority(authority);
+
 		int status = userService.save(userDao);
 		if (status == 1) {
 			model.addAttribute("message", "The username already exist.");
@@ -97,8 +111,9 @@ public class UserController {
 			return "registration";
 		}
 
-		userService.sendOrderConfirmation(userDao);
-		return "redirect:/todos";
+		this.mailService.sendConfirmationEmail(userDao);
+
+		return "sendEmail-success";
 	}
 
 	@GetMapping("/forgetPassword")
@@ -134,7 +149,8 @@ public class UserController {
 			return "forget-password";
 		}
 
-		userService.sendPasswordReset(checkUser);
+		String temp = this.userService.passwordForget(checkUser);
+		this.mailService.sendPasswordResetEmail(checkUser, temp);
 
 		model.addAttribute("email_password_reset", "Email has sent. Please check your email.");
 

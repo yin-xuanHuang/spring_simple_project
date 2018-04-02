@@ -7,7 +7,7 @@ import com.spring5demo.demo.domain.Todo;
 public interface TodoRepository {
 
     List<Todo> findAll();
-    Todo findOne(long id);
+    Todo findOneById(long id);
     
     void remove(long id);
     Todo save(Todo todo);

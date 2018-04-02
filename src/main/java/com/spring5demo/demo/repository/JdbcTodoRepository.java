@@ -28,7 +28,7 @@ public class JdbcTodoRepository implements TodoRepository {
     }
 
     @Override
-    public Todo findOne(long id) {
+    public Todo findOneById(long id) {
         return this.jdbc.queryForObject("select * from todo where id=?", BeanPropertyRowMapper.newInstance(Todo.class), id);
     }
 

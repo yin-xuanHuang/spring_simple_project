@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.exception.PermissionDeniedException;
-import com.spring5demo.demo.exception.ResourceNotFoundException;
+import com.spring5demo.demo.exception.TodoNotFoundException;
 import com.spring5demo.demo.service.TodoService;
 
 @Controller
@@ -35,7 +36,7 @@ public class TodoController {
     }
 
     @GetMapping
-    public String list(Model model) {
+    public String list(ModelMap model) {
         List<Todo> todos = todoService.listTodos();
         model.addAttribute("todos", todos);
         return "todos";
@@ -77,9 +78,8 @@ public class TodoController {
     	return "errors/permissionDenied";
     }
     
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public String handleResourceNotFound() {
+    @ExceptionHandler(TodoNotFoundException.class)
+    public String handleTodoNotFound() {
     	return "errors/notFound";
     }
-
 }

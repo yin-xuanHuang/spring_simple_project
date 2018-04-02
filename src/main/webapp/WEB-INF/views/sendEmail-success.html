@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title th:text="#{not.found.title}">Not found</title>
+    <title th:text="#{send.email.success.title}">send email success</title>
     <link type="text/css" rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
     <style type="text/css">
@@ -21,8 +21,8 @@
 <body>
 <div class="ui middle aligned center aligned grid">
     <div class="column">
-        <h2 class="ui header" th:text="#{not.found.h2}">Sorry, the request is not available.</h2>
-        <a th:href="@{/}" class="ui mini positive button" th:text="#{not.found.link}">todo list</a>
+        <h2 class="ui header" th:text="#{send.email.success.h2}">The email has been sent successfully, please check your email.</h2>
+        <a th:href="@{/}" class="ui mini positive button" th:text="#{send.email.success.link}">todo list</a>
     </div>
 </div>
 </body>

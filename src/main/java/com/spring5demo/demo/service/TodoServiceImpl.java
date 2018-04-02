@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring5demo.demo.domain.Todo;
 import com.spring5demo.demo.exception.PermissionDeniedException;
-import com.spring5demo.demo.exception.ResourceNotFoundException;
+import com.spring5demo.demo.exception.TodoNotFoundException;
 import com.spring5demo.demo.repository.TodoRepository;
 
 @Service
@@ -37,7 +37,8 @@ public class TodoServiceImpl implements TodoService {
 	public void complete(long id, String username) {
 		Todo todo = this.findOneById(id);
 		if(todo == null) {
-			throw new ResourceNotFoundException("Wrong request");
+			String message = "Data not found.(id: " + id + ")";
+			throw new TodoNotFoundException(message);
 		}
 		
 		if(!todo.getOwner().equals(username)) {
@@ -51,16 +52,25 @@ public class TodoServiceImpl implements TodoService {
 	@Override
 	public void remove(long id, String username) {
 		Todo todo = this.findOneById(id);
+		
+		if(todo == null) {
+			String message = "Data not found.(id: " + id + ")";
+			throw new TodoNotFoundException(message);
+		}
+		
 		if(!todo.getOwner().equals(username)) {
 			String message = "Permission denied.(owner: " + todo.getOwner() + ")";
 			throw new PermissionDeniedException(message);
 		}
+		
+
 		this.todoRepository.remove(id);
+
 	}
 
 	@Override
 	public Todo findOneById(long id) {
-		return todoRepository.findOne(id);
+		return todoRepository.findOneById(id);
 	}
 
 

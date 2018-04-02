@@ -15,83 +15,91 @@ import com.spring5demo.demo.domain.User;
 @Component
 public class DatabasePopulateInitializer {
 
-    private TodoService messageBoardService;
-    
-    private UserService autoRegisterService;
-    
-    @Autowired
-    public DatabasePopulateInitializer(TodoService messageBoardService, UserService autoRegisterService) {
-        this.messageBoardService = messageBoardService;
-        this.autoRegisterService = autoRegisterService;
-    }
+	private TodoService todoService;
 
-    @PostConstruct
-    public void setup() {
+	private AuthorityService authorityService;
 
-        Todo todo = new Todo();
-        todo.setOwner("marten");
-        todo.setDescription("Finish Spring Recipes - Security Chapter");
+	private UserService userService;
 
-        messageBoardService.save(todo);
+	@Autowired
+	public DatabasePopulateInitializer(TodoService todoService, UserService userService,
+			AuthorityService authorityService) {
+		this.todoService = todoService;
+		this.authorityService = authorityService;
+		this.userService = userService;
+	}
 
-        todo = new Todo();
-        todo.setOwner("marten");
-        todo.setDescription("Get Milk & Eggs");
-        todo.setCompleted(true);
-        messageBoardService.save(todo);
+	@PostConstruct
+	public void setup() {
 
-        todo = new Todo();
-        todo.setOwner("marten");
-        todo.setDescription("Call parents.");
+		Todo todo = new Todo();
+		todo.setOwner("marten");
+		todo.setDescription("Finish Spring Recipes - Security Chapter");
 
-        messageBoardService.save(todo);
+		todoService.save(todo);
 
-        todo = new Todo();
-        todo.setOwner("jlong");
-        todo.setDescription("Prepare Cloud Native Presentation");
+		todo = new Todo();
+		todo.setOwner("marten");
+		todo.setDescription("Get Milk & Eggs");
+		todo.setCompleted(true);
+		todoService.save(todo);
 
-        messageBoardService.save(todo);
+		todo = new Todo();
+		todo.setOwner("marten");
+		todo.setDescription("Call parents.");
 
-        todo = new Todo();
-        todo.setOwner("rwinch");
-        todo.setDescription("Finish Spring Security Reactive.");
+		todoService.save(todo);
 
-        messageBoardService.save(todo);
-        
-        autoRegister();
+		todo = new Todo();
+		todo.setOwner("jlong");
+		todo.setDescription("Prepare Cloud Native Presentation");
 
-    }
-    
-    public void autoRegister() {
-    	
-    	this.autoRegisterService.saveAuthority(AuthoritiesConstants.ADMIN);
-    	this.autoRegisterService.saveAuthority(AuthoritiesConstants.USER);
-    	
-    	User user = new User();
-    	user.setUsername("adminx");
-    	user.setPassword("secret");
-    	user.setEmail("adminx@ya2io.io");
-    	user.setEnabled(true);
-    	Authority authority = this.autoRegisterService.findOneByName(AuthoritiesConstants.ADMIN);
-    	
-        user.addAuthority(authority);
-        
-        this.autoRegisterService.save(user);
-        
-        user = new User();
-        user.setUsername("marten");
-        user.setPassword("user");
-        user.setEmail("marten@ya2io.io");
-        user.setEnabled(true);
-        
-        this.autoRegisterService.save(user);
-        
-        user = new User();
-        user.setUsername("jdoe");
-        user.setPassword("unknown");
-        user.setEmail("jdoe@ya2do.net");
-        
-        this.autoRegisterService.save(user);
-        
-    }
+		todoService.save(todo);
+
+		todo = new Todo();
+		todo.setOwner("rwinch");
+		todo.setDescription("Finish Spring Security Reactive.");
+
+		todoService.save(todo);
+
+		autoRegister();
+
+	}
+
+	public void autoRegister() {
+
+		this.authorityService.save(AuthoritiesConstants.ADMIN);
+		this.authorityService.save(AuthoritiesConstants.USER);
+		
+		Authority authorityAdmin = this.authorityService.findOneByName(AuthoritiesConstants.ADMIN);
+		Authority authorityUser = this.authorityService.findOneByName(AuthoritiesConstants.USER);
+
+		User user = new User();
+		user.setUsername("adminx");
+		user.setPassword("secret");
+		user.setEmail("adminx@ya2io.io");
+		user.setEnabled(true);
+		user.addAuthority(authorityAdmin);
+		user.addAuthority(authorityUser);
+
+		this.userService.save(user);
+
+		user = new User();
+		user.setUsername("marten");
+		user.setPassword("user");
+		user.setEmail("marten@ya2io.io");
+		user.setEnabled(true);
+		user.addAuthority(authorityUser);
+
+		this.userService.save(user);
+
+		user = new User();
+		user.setUsername("jdoe");
+		user.setPassword("unknown");
+		user.setEmail("jdoe@ya2do.net");
+		user.addAuthority(authorityUser);
+
+		this.userService.save(user);
+
+	}
 }

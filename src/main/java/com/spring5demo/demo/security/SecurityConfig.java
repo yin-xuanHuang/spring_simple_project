@@ -54,10 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.key("spring5demo")
 			.and()
 				.logout()
-				.logoutSuccessUrl("/logout-success")
-			.and()
-				.requiresChannel()
-				.antMatchers("/login*").requiresSecure();
+				.logoutSuccessUrl("/logout-success");
 	}
 	
 	@Bean
